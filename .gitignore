@@ -1,0 +1,4 @@
+dataset/household_power_consumption.txt
+*.csv
+*.pkl
+*.txt
