@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Energy Dashboard ⚡</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0d6efd" />
+
+</head>
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker
+        .register("service-worker.js")
+        .then(reg => console.log("✅ Service Worker registered", reg.scope))
+        .catch(err => console.error("❌ Service Worker failed:", err));
+    });
+  }
+</script>
+
+<body>
+  <header>
+    <h1>Smart Energy Forecast Dashboard ⚡</h1>
+  </header>
+
+  <section id="summary">
+    <h2>Energy Overview</h2>
+    <div id="alerts"></div>
+  </section>
+<section id="costSection">
+  <h2>💰 Energy Cost Analysis</h2>
+  <div id="costSummary"></div>
+  <canvas id="costChart"></canvas>
+</section>
+<section id="aiTipSection">
+  <h2>🧠 Smart Energy Tip</h2>
+  <div id="aiTip"></div>
+</section>
+
+  <section id="charts">
+    <canvas id="usageChart"></canvas>
+    <canvas id="forecastChart"></canvas>
+    <canvas id="weeklyChart"></canvas>
+  </section>
+<section id="emissionSection">
+  <h2>🌿 CO₂ Emission Tracker</h2>
+  <div id="emissionSummary"></div>
+  <canvas id="emissionChart"></canvas>
+</section>
+<section id="ai-forecast">
+  <h2>AI Demand Forecast & Dispatch Recommendation</h2>
+  <div id="forecast-summary" class="forecast-card">
+    <p>Loading latest forecast...</p>
+  </div>
+</section>
+<section id="gauge-section">
+  <h2>Real-Time Demand-Supply Balance</h2>
+  <canvas id="balanceGauge"></canvas>
+</section>
+<section id="price-section">
+  <h2>Dynamic IEX Bidding Price Simulation (₹/MWh)</h2>
+  <canvas id="priceChart"></canvas>
+</section>
+
+  <footer>
+    <p>Smart Energy Optimization — Powered by FastAPI + XGBoost</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
