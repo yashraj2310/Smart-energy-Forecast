@@ -3,7 +3,12 @@
 # IMPORTANT: set your GROQ key in environment variable GROQ_API_KEY before running:
 #   PowerShell:  setx GROQ_API_KEY "your_key_here"  (then restart terminal)
 #   Linux/mac:   export GROQ_API_KEY="your_key_here"
-
+import uuid
+import json
+from collections import deque
+from fastapi import Response, Cookie
+from fastapi.responses import StreamingResponse
+import asyncio
 from typing import Any, Dict, List, Optional
 import os
 import random
@@ -265,14 +270,63 @@ async def websocket_updates(websocket: WebSocket) -> None:
 # Suggestions & Emissions
 # ---------------------------
 @app.get("/api/suggestion")
-def get_ai_suggestion() -> Dict[str, str]:
-    tips = [
-        "Run washing machines after 10 PM to save ₹18/day.",
-        "Switch to LED lights to cut 5% of your energy bill.",
-        "Charge EVs during 2–5 AM off-peak hours.",
-        "Keep fridge at 4°C for energy efficiency.",
-    ]
+def get_ai_suggestion_dynamic():
+    """Generate live smart energy tips from real data."""
+
+    # Fetch relevant data
+    latest = get_latest_data()
+    cost_data = calculate_energy_cost()
+    forecast = forecast_next_24h()
+    emission = get_co2_emission()
+
+    tips = []
+
+    # --- Usage analysis ---
+    if latest["power"]:
+        avg_usage = sum(latest["power"]) / len(latest["power"])
+        peak_usage = max(latest["power"])
+        if peak_usage > avg_usage * 1.4:
+            tips.append(
+                f"Your peak usage is {peak_usage:.2f} kW, much higher than your daily average {avg_usage:.2f} kW — avoid running heavy appliances together."
+            )
+        if avg_usage > 1.5:
+            tips.append(
+                f"Your average usage ({avg_usage:.2f} kW) is high — consider using energy-efficient appliances and checking AC/fridge settings."
+            )
+
+    # --- Cost pattern analysis ---
+    summary = cost_data.get("summary", {})
+    if summary:
+        if summary["avg_tariff"] >= 6:
+            tips.append(
+                f"Your average tariff is ₹{summary['avg_tariff']}/kWh — shift washing machine, geyser & EV charging outside {', '.join(summary['peak_hours'][:3])}."
+            )
+        if summary["total_cost"] > 150:
+            tips.append(
+                f"You spent ₹{summary['total_cost']} in the last 24 hours — reduce load during peak tariff (₹8/kWh) hours."
+            )
+
+    # --- Forecast analysis ---
+    if forecast["forecast"]:
+        tomorrow_avg = sum(forecast["forecast"]) / len(forecast["forecast"])
+        if tomorrow_avg > avg_usage:
+            tips.append(
+                f"Tomorrow’s expected load is {tomorrow_avg:.2f} kW — plan heavy tasks during off-peak hours to reduce your bill."
+            )
+
+    # --- Emission pattern ---
+    emi_summary = emission.get("summary", {})
+    if emi_summary.get("total_emission", 0) > 120:
+        tips.append(
+            f"Your CO₂ emission this week is {emi_summary['total_emission']} kg — reducing evening power spikes can lower your footprint."
+        )
+
+    # --- Fallback ---
+    if not tips:
+        tips.append("Your energy usage is stable — no actions needed right now!")
+
     return {"suggestion": random.choice(tips)}
+
 
 
 @app.get("/api/emission")

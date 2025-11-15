@@ -20,21 +20,21 @@
 
   <main class="container">
 
-    <!-- Overview + Alerts -->
+    <!-- Overview + Alerts
     <section id="summary" class="card">
       <div class="card-head"><h2>⚙️ Energy Overview</h2></div>
       <div id="alerts" class="alerts"></div>
-    </section>
+    </section> -->
 
     <!-- Two-column row: Usage (left) + Forecast (right) -->
     <section class="card row" id="charts-row">
       <div class="col col-6">
-        <h3>📈 Actual Usage (last 24h)</h3>
+        <h3>📈 Forecasted Power Usage</h3>
         <canvas id="usageChart" aria-label="Usage chart"></canvas>
       </div>
 
       <div class="col col-6">
-        <h3>🔮 Forecast (next 24h)</h3>
+        <h3>🔮 Optimised Forecast Power</h3>
         <canvas id="forecastChart" aria-label="Forecast chart"></canvas>
       </div>
     </section>
@@ -86,16 +86,13 @@
 
     <!-- Chat / RAG assistant -->
     <section id="chatSection" class="card">
-      <div class="card-head"><h2>💬 Ask the Dashboard (RAG Chat)</h2></div>
+      <div class="card-head"><h2>💬 Ask the Dashboard </h2></div>
 
       <div id="chatBox" class="chat-box" aria-live="polite"></div>
 
       <div id="controls" class="chat-controls">
         <input id="userQuery" placeholder="Ask about usage, forecast or bills (e.g. 'why cost increased?')" />
-        <select id="langSelect" title="Language">
-          <option value="en">EN</option>
-          <option value="hi">HI</option>
-        </select>
+       
         <button id="sendBtn">Send</button>
       </div>
       <div id="chatError" class="error" style="display:none"></div>

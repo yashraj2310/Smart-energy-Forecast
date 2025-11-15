@@ -60,7 +60,7 @@ function updateCharts(latest = {timestamps:[], power:[]}, forecast = {timestamps
   if (usageCtx && Array.isArray(latest.timestamps) && latest.power) {
     usageChart = new Chart(usageCtx, {
       type: "line",
-      data: { labels: latest.timestamps, datasets: [{ label: "Actual Power (kW)", data: latest.power, borderColor: "#00d2ff", backgroundColor: "rgba(0,210,255,0.12)", fill: true, tension: 0.35 }]},
+      data: { labels: latest.timestamps, datasets: [{ label: "Forecasted Power Usage (kW)", data: latest.power, borderColor: "#00d2ff", backgroundColor: "rgba(0,210,255,0.12)", fill: true, tension: 0.35 }]},
       options: { plugins:{legend:{labels:{color:"#fff"}}}, scales:{ x:{ticks:{color:"#bbb"}}, y:{ticks:{color:"#bbb"}}}}
     });
   }
@@ -70,7 +70,7 @@ function updateCharts(latest = {timestamps:[], power:[]}, forecast = {timestamps
   if (forecastCtx && Array.isArray(forecast.timestamps) && forecast.forecast) {
     forecastChart = new Chart(forecastCtx, {
       type: "line",
-      data: { labels: forecast.timestamps, datasets: [{ label: "Forecasted Power (kW)", data: forecast.forecast, borderColor: "#ff6b6b", backgroundColor: "rgba(255,107,107,0.12)", fill: true, tension: 0.35 }]},
+      data: { labels: forecast.timestamps, datasets: [{ label: "Optimised Forecast Power (kW)", data: forecast.forecast, borderColor: "#ff6b6b", backgroundColor: "rgba(255,107,107,0.12)", fill: true, tension: 0.35 }]},
       options: { plugins:{legend:{labels:{color:"#fff"}}}, scales:{ x:{ticks:{color:"#bbb"}}, y:{ticks:{color:"#bbb"}}}}
     });
   }
