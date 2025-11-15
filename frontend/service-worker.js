@@ -22,12 +22,31 @@ self.addEventListener("install", (event) => {
 
 // Fetch event (offline handling)
 self.addEventListener("fetch", (event) => {
+  const url = event.request.url;
+
+  // 🚫 1. Don't touch API requests (POST/GET/WS)
+  if (url.includes("/api/") || url.includes("/ws/")) {
+    return; // Let the browser handle normally
+  }
+
+  // 🚫 2. Don't touch POST requests at all
+  if (event.request.method !== "GET") {
+    return;
+  }
+
+  // ✅ 3. Offline-first caching for frontend assets only
   event.respondWith(
     caches.match(event.request).then((response) => {
-      return response || fetch(event.request);
+      return (
+        response ||
+        fetch(event.request).catch(() =>
+          caches.match("./index.html")
+        )
+      );
     })
   );
 });
+
 
 // Activate event
 self.addEventListener("activate", (event) => {

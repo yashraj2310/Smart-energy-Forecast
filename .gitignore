@@ -1,4 +1,6 @@
-dataset/household_power_consumption.txt
-*.csv
-*.pkl
-*.txt
+
+
+# Python virtual environment
+venv/
+__pycache__/
+*.pyc

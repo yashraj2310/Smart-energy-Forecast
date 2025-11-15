@@ -1,72 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Smart Energy Dashboard ⚡</title>
+
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0d6efd" />
 
+  <meta name="theme-color" content="#0d6efd" />
 </head>
-<script>
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker
-        .register("service-worker.js")
-        .then(reg => console.log("✅ Service Worker registered", reg.scope))
-        .catch(err => console.error("❌ Service Worker failed:", err));
-    });
-  }
-</script>
-
 <body>
   <header>
-    <h1>Smart Energy Forecast Dashboard ⚡</h1>
+    <div class="header-inner">
+      <h1>⚡ Smart Energy Forecast Dashboard</h1>
+      <p class="subtitle">AI-powered insights for efficient energy use</p>
+    </div>
   </header>
 
-  <section id="summary">
-    <h2>Energy Overview</h2>
-    <div id="alerts"></div>
-  </section>
-<section id="costSection">
-  <h2>💰 Energy Cost Analysis</h2>
-  <div id="costSummary"></div>
-  <canvas id="costChart"></canvas>
-</section>
-<section id="aiTipSection">
-  <h2>🧠 Smart Energy Tip</h2>
-  <div id="aiTip"></div>
-</section>
+  <main class="container">
 
-  <section id="charts">
-    <canvas id="usageChart"></canvas>
-    <canvas id="forecastChart"></canvas>
-    <canvas id="weeklyChart"></canvas>
-  </section>
-<section id="emissionSection">
-  <h2>🌿 CO₂ Emission Tracker</h2>
-  <div id="emissionSummary"></div>
-  <canvas id="emissionChart"></canvas>
-</section>
-<section id="ai-forecast">
-  <h2>AI Demand Forecast & Dispatch Recommendation</h2>
-  <div id="forecast-summary" class="forecast-card">
-    <p>Loading latest forecast...</p>
-  </div>
-</section>
-<section id="gauge-section">
-  <h2>Real-Time Demand-Supply Balance</h2>
-  <canvas id="balanceGauge"></canvas>
-</section>
-<section id="price-section">
-  <h2>Dynamic IEX Bidding Price Simulation (₹/MWh)</h2>
-  <canvas id="priceChart"></canvas>
-</section>
+    <!-- Overview + Alerts -->
+    <section id="summary" class="card">
+      <div class="card-head"><h2>⚙️ Energy Overview</h2></div>
+      <div id="alerts" class="alerts"></div>
+    </section>
+
+    <!-- Two-column row: Usage (left) + Forecast (right) -->
+    <section class="card row" id="charts-row">
+      <div class="col col-6">
+        <h3>📈 Actual Usage (last 24h)</h3>
+        <canvas id="usageChart" aria-label="Usage chart"></canvas>
+      </div>
+
+      <div class="col col-6">
+        <h3>🔮 Forecast (next 24h)</h3>
+        <canvas id="forecastChart" aria-label="Forecast chart"></canvas>
+      </div>
+    </section>
+
+    <!-- Weekly & Cost in a row -->
+    <section class="card row">
+      <div class="col col-6">
+        <h3>📊 Weekly Daily Average</h3>
+        <canvas id="weeklyChart"></canvas>
+      </div>
+
+      <div class="col col-6">
+        <h3>💰 Energy Cost Analysis</h3>
+        <div id="costSummary" class="summary-box"></div>
+        <canvas id="costChart"></canvas>
+      </div>
+    </section>
+
+    <!-- CO₂ + AI Tip row -->
+    <section class="card row">
+      <div class="col col-6">
+        <h3>🌿 CO₂ Emission Tracker</h3>
+        <div id="emissionSummary" class="summary-box"></div>
+        <canvas id="emissionChart"></canvas>
+      </div>
+
+      <div class="col col-6">
+        <h3>🧠 AI Smart Energy Tip</h3>
+        <div id="aiTip" class="ai-tip">Loading tip...</div>
+
+        <h3 style="margin-top: 1.2rem;">🤖 AI Demand Forecast & Smart Dispatch</h3>
+        <div id="forecast-summary" class="forecast-card">
+          <p>Loading latest forecast...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Monthly bill predictor -->
+    <section id="monthlyBillSection" class="card">
+      <div class="card-head"><h2>📅 Monthly Bill Predictor</h2></div>
+      <div id="monthly-bill-loading">Loading monthly bill…</div>
+      <div id="monthly-bill-result" style="display:none;" class="monthly-result">
+        <p><strong>Month:</strong> <span id="bill-month"></span></p>
+        <p><strong>Total Usage:</strong> <span id="bill-usage"></span> kWh</p>
+        <p><strong>Total Cost:</strong> ₹ <span id="bill-cost"></span></p>
+      </div>
+      <canvas id="monthlyBillChart"></canvas>
+    </section>
+
+    <!-- Chat / RAG assistant -->
+    <section id="chatSection" class="card">
+      <div class="card-head"><h2>💬 Ask the Dashboard (RAG Chat)</h2></div>
+
+      <div id="chatBox" class="chat-box" aria-live="polite"></div>
+
+      <div id="controls" class="chat-controls">
+        <input id="userQuery" placeholder="Ask about usage, forecast or bills (e.g. 'why cost increased?')" />
+        <select id="langSelect" title="Language">
+          <option value="en">EN</option>
+          <option value="hi">HI</option>
+        </select>
+        <button id="sendBtn">Send</button>
+      </div>
+      <div id="chatError" class="error" style="display:none"></div>
+    </section>
+
+  </main>
 
   <footer>
-    <p>Smart Energy Optimization — Powered by FastAPI + XGBoost</p>
+    <p>Smart Energy Optimization — Powered by <b>FastAPI</b> + <b>XGBoost</b> + <b>Chart.js</b></p>
   </footer>
 
   <script src="app.js"></script>

@@ -1,160 +1,102 @@
-body {
-  font-family: "Poppins", sans-serif;
-  background: #111;
-  color: #f4f4f4;
-  text-align: center;
-  margin: 0;
-  padding: 0;
+/* Google font */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+:root{
+  --bg:#07070a;
+  --card: rgba(22,22,28,0.9);
+  --accent: #00e0ff;
+  --primary: #0d6efd;
+  --muted: #9aa3b2;
+  --glass-blur: blur(8px);
+  --success: #51cf66;
+  --danger: #ff4d4d;
+  --warning: #ffd43b;
+  --text: #f4f4f4;
 }
 
-header {
-  background: linear-gradient(90deg, #0d6efd, #6610f2);
-  padding: 1rem;
-  color: #fff;
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:"Poppins",sans-serif;
+  background: radial-gradient(circle at top left,#040405,#000);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  padding:18px;
 }
 
-section {
-  margin: 2rem auto;
-  width: 90%;
-  max-width: 1000px;
-  background: #1c1c1c;
-  padding: 1rem;
-  border-radius: 10px;
+/* Layout */
+.container{max-width:1200px;margin:0 auto}
+
+/* Header */
+header{
+  position:sticky;top:0;z-index:40;
+  background: linear-gradient(120deg,var(--primary),#6610f2);
+  padding:18px;border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,0.6);
+  margin-bottom:18px;
+}
+.header-inner{max-width:1200px;margin:0 auto;display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+header h1{font-size:1.35rem}
+header .subtitle{font-size:0.95rem;color:rgba(255,255,255,0.9)}
+
+/* Cards */
+.card{
+  background:var(--card);
+  border-radius:12px;padding:18px;margin-bottom:18px;
+  box-shadow: 0 6px 22px rgba(0,0,0,0.5);
+  backdrop-filter:var(--glass-blur);
+}
+.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+
+/* Rows & columns */
+.row{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap}
+.col{flex:1;min-width:260px}
+.col-6{flex-basis:calc(50% - 9px);}
+
+/* Chart style */
+canvas{width:100% !important;height:320px !important;background:rgba(10,10,12,0.6);border-radius:8px;padding:8px;display:block}
+@media(max-width:900px){
+  .col-6{flex-basis:100%}
+  canvas{height:260px !important}
 }
 
-canvas {
-  width: 100%;
-  height: 300px;
-  margin-top: 1rem;
-  background: #222;
-  border-radius: 8px;
+/* Alerts */
+.alerts{
+  background:linear-gradient(90deg,#222,#0f0f12);
+  color:var(--warning);
+  padding:14px;border-radius:8px;font-size:1rem;
+  box-shadow:0 4px 12px rgba(0,0,0,0.4);
 }
+.alerts:empty::after{content:"Loading energy insights...";color:#9aa3b2}
 
-#alerts {
-  background: #333;
-  color: #ffd43b;
-  padding: 1rem;
-  border-radius: 8px;
-  font-size: 1rem;
-}
-#weeklyChart {
-  margin-top: 1.5rem;
-  background: #1b1b1b;
-  border-radius: 10px;
-  padding: 0.5rem;
-}
-#usageChart, #forecastChart, #weeklyChart {
-  margin-top: 1.5rem;
-  background: #1b1b1b;
-  border-radius: 10px;
-  padding: 0.5rem;
-  box-shadow: 0 0 10px rgba(0,0,0,0.4);
-}
-#costSection {
-  margin-top: 2rem;
-  background: #1c1c1c;
-  padding: 1.5rem;
-  border-radius: 10px;
-}
+/* Summaries & boxes */
+.summary-box{background:#0b0b0d;padding:12px;border-radius:8px;margin-bottom:10px;color:#e8eef6;text-align:left}
+.ai-tip{background:linear-gradient(180deg,rgba(0,16,30,0.7),rgba(0,8,15,0.7));padding:12px;border-radius:8px;text-align:left}
 
-#costSummary {
-  background: #222;
-  color: #fff;
-  padding: 1rem;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  font-size: 1.05rem;
-  line-height: 1.6;
-}
-#costChart {
-  background: #1b1b1b;
-  border-radius: 10px;
-  padding: 0.5rem;
-}
-#aiTipSection {
-  margin-top: 2rem;
-  background: #1c1c1c;
-  padding: 1.5rem;
-  border-radius: 10px;
-  color: #00e0ff;
-  font-size: 1.1rem;
-  line-height: 1.6;
-}
+/* Forecast card */
+.forecast-card{background:linear-gradient(180deg,rgba(20,20,24,0.6),rgba(15,15,18,0.6));padding:12px;border-radius:8px}
 
-#aiTip {
-  background: #0f0f0f;
-  color: #fff;
-  padding: 1rem;
-  border-radius: 8px;
-  margin-top: 0.5rem;
-}
-#emissionSection {
-  margin-top: 2rem;
-  background: #1c1c1c;
-  padding: 1.5rem;
-  border-radius: 10px;
-}
+/* Monthly results */
+.monthly-result p{color:var(--text);margin:6px 0}
 
-#emissionSummary {
-  background: #222;
-  color: #fff;
-  padding: 1rem;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  font-size: 1.05rem;
-  line-height: 1.6;
+/* Chat */
+.chat-box{
+  height:260px;overflow:auto;background:linear-gradient(180deg,#0a0a0a,#050506);padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03)
 }
-#ai-forecast {
-  margin: 2rem auto;
-  width: 90%;
-  max-width: 800px;
-  background: #1b1b1b;
-  border-radius: 10px;
-  padding: 1.5rem;
-  color: #e0e0e0;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
-}
+.chat-box p{margin:8px 0;line-height:1.4}
+.chat-controls{display:flex;gap:8px;margin-top:10px;align-items:center;flex-wrap:wrap}
+.chat-controls input{flex:1;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:#0a0a0a;color:var(--text)}
+.chat-controls select{padding:8px;border-radius:6px;background:#0a0a0a;color:var(--text);border:1px solid rgba(255,255,255,0.03)}
+.chat-controls button{padding:10px 14px;border-radius:8px;border:none;background:var(--accent);color:#000;font-weight:600;cursor:pointer}
 
-.forecast-card {
-  margin-top: 1rem;
-  padding: 1rem;
-  background: #222;
-  border-radius: 8px;
-  border-left: 5px solid #0d6efd;
-}
+/* small helpers */
+.error{color:var(--danger);margin-top:8px}
+.card h3{margin-bottom:8px;color:var(--accent)}
 
-.forecast-card h3 {
-  color: #0d6efd;
-}
+/* Footer */
+footer{margin-top:20px;text-align:center;padding:12px;color:#ddd;font-size:0.95rem}
 
-.forecast-card ul {
-  text-align: left;
-  margin-left: 2rem;
-}
-
-.forecast-card .positive {
-  border-left-color: #28a745;
-}
-
-.forecast-card .negative {
-  border-left-color: #dc3545;
-}
-#gauge-section {
-  width: 90%;
-  max-width: 500px;
-  margin: 2rem auto;
-  background: #1b1b1b;
-  padding: 1rem;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.4);
-}
-
-#gauge-section h2 {
-  margin-bottom: 1rem;
-  color: #fff;
-}
-
-#balanceGauge {
-  width: 100%;
-  height: 300px;
+/* Tiny responsive spacing */
+@media (max-width:480px){
+  body{padding:12px}
+  header h1{font-size:1.1rem}
 }

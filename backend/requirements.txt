@@ -1,8 +1,3 @@
-
-fastapi
-uvicorn
-joblib
-pandas
-numpy
-scikit-learn
-xgboost
+version https://git-lfs.github.com/spec/v1
+oid sha256:bfe9d6482c71cbc3104318b50b0c28a09a19b86ebebadf86cdba0328dc547679
+size 122
